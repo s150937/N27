@@ -1,0 +1,21 @@
+{
+  "name": "n27",
+  "version": "1.0.0",
+  "description": "Meine tolle Smartphone-BANK",
+  "main": "sever.js",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://s150937@bitbucket.org/s150937/n27.git"
+  },
+  "author": "Romy",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/s150937/n27#readme"
+}
