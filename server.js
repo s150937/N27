@@ -67,3 +67,41 @@ app.post('/',(req, res, next) => {
         })
     }
 })
+
+// wenn der Button auf der Konto anlegen seite gedrückt wird,...
+
+app.post('/kontoAnlegen',(req, res, next) => {   
+
+    let idKunde = req.cookies['istAngemeldetAls']
+    
+    if(idKunde){
+        console.log("Kunde ist angemeldet als " + idKunde)
+        
+//... dann wird kontoAnlegen.ejs gerendert.
+
+        res.render('kontoAnlegen.ejs', {                              
+        })
+    }else{
+        res.render('login.ejs', {                    
+        })    
+    }
+})
+
+// Wenn die Seite Localhost:3000 angesurft wird,...
+
+app.get('/kontoAnlegen',(req, res, next) => {   
+
+    let idKunde = req.cookies['istAngemeldetAls']
+    
+    if(idKunde){
+        console.log("Kunde ist angemeldet als " + idKunde)
+
+// ... dann wird kontoAnlegen.ejs gerendert
+
+        res.render('kontoanlegen.ejs', {
+        })
+    }else{
+        res.render('login.ejs', {                    
+        })    
+    }
+})

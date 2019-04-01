@@ -73,7 +73,14 @@ nav {
   text-align:center;  
   color: white;
  }
+
  a {  
   color: white;  
   text-decoration: none;
  }
+
+p {
+  font-family: Arial, Helvetica, sans-serif;
+  color: gray;
+    
+}
