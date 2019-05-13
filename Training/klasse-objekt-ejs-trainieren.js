@@ -42,13 +42,6 @@ class Auto{
     }
 }
 
-class Fussballer{
-    constructor(){
-        this.mannschaft
-        this.vorname
-    }
-}
-
 // Deklaration eines neuen Objekts vom Typ Rechteck
 // Deklaration = Bekanntmachung
 // let rechteck = ...
@@ -62,7 +55,6 @@ class Fussballer{
 let rechteck = new Rechteck()
 let schueler = new Schueler()
 let auto = new Auto()
-let fussballer = new Fussballer
 
 // 3. Initialisierung (Konkrete Eigenschaftswerte wer werden zugewiesen)
 
@@ -74,9 +66,6 @@ schueler.alter = 17
 
 auto.marke = "Audi"
 auto.farbe = "Schwarz"
-
-fussballer.mannschaft = "FC borken"
-fussballer.name = Fierke
 
 console.log("Länge: " + rechteck.laenge)
 console.log("Breite: " + rechteck.breite)
@@ -97,9 +86,6 @@ app.get('/klasse-objekt-ejs-trainieren',(req, res, next) => {
           
         marke : auto.marke,
         farbe : auto.farbe,
-    
-        mannschaft: fussballer.mannschafft,
-        vorname: fussballer.vorname
         
     })
 })
