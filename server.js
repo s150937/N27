@@ -16,9 +16,13 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(cookieParser())
 
 const server = app.listen(process.env.PORT || 3000, () => {
+   
+   // Ausgabe von 'Server lauscht auf...' im Terminal
     console.log('Server lauscht auf Port %s', server.address().port)    
 })
 
+// Die App.get('/'...) wird abgearbeitet wenn die Startseite 
+//im Browser aufgerufen wird.
 app.get('/',(req, res, next) => {   
 
     let idKunde = req.cookies['istAngemeldetAls']
@@ -110,19 +114,29 @@ app.post('/kontoAnlegen',(req, res, next) => {
     if(idKunde){
         console.log("Kunde ist angemeldet als " + idKunde)
         
+        // Der Wert aus dem Input mit dem Namen 'kontonummer'
+        // wird zugewiesen (=) an die Eigenschaft Kontonummer
+        // des Objekts namens Konto.
         let konto = new Konto()
         konto.Kontonummer = req.body.kontonummer
         konto.Kontoart = req.body.kontoart
-         
-        let bankleitzahl = 12345678
-        let errechneteIban = iban.fromBBAN("DE",bankleitzahl + " " + konto.Kontonummer)
+        const bankleitzahl = 27000000
+        const leandererkennung = "DE"
+        konto.Iban = iban.fromBBAN(leandererkennung,bankleitzahl + " " + konto.Kontonummer)
+
 
 console.log(errechneteIban)        
+
+        // ...wird kontoAnlegen.ejs gerendert.
 
         res.render('kontoAnlegen.ejs', {   
             meldung : "Das " + konto.Kontoart + " mit der Kontonummer" + konto.Kontonummer +   "  wurde erfolgreich angelegt."                           
         })
     }else{
+
+        // Die login.ejs wird gerendert 
+        // und als Response
+        // an den Browser übergeben.
         res.render('login.ejs', {                    
         })    
     }
