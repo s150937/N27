@@ -2,6 +2,7 @@ class Konto{
     constructor(){
         this.Kontonummer
         this.kontoart
+        this.Iban
     }
 }
 
