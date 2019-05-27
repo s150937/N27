@@ -6,26 +6,32 @@ class Konto{
     }
 }
 
+// Klassendefinition
 class Kunde{
     constructor(){
         this.Vorname
         this.Nachname
         this.Geschlecht
-        this.idKunde
+        this.IdKunde
         this.Geburtsdatum
         this.Adresse
         this.Kennwort
     }
 }
 
+// Deklaration und Instanziierung
+
 let kunde = new Kunde()
-kunde.idKunde = 4711
+
+// Initialisierung
+
+kunde.IdKunde = 4711
 kunde.Kennwort = "123"
-kunde.Vorname = "Romy"
-kunde.Nachname = "Zimmermann"
+kunde.Vorname = "Hildegard"
+kunde.Nachname = "Schmidt"
 kunde.Geschlecht = "w"
-kunde.Geburtsdatum = "2001-08-16"
-kunde.Adresse = "Steinstraße 6, 46359 Heiden"
+kunde.Geburtsdatum = "1999-12-31"
+kunde.Adresse = "Berlin"
 
 const express = require('express')
 const iban = require('iban')
@@ -68,8 +74,7 @@ app.get('/impressum',(req, res, next) => {
     if(idKunde){
         console.log("Kunde ist angemeldet als " + idKunde)
         
-        // ... dann wird impressum.ejs gerendert.
-        
+        // ... dann wird impressum.ejs gerendert. 
         res.render('impressum.ejs', {                              
         })
     }else{
@@ -77,6 +82,8 @@ app.get('/impressum',(req, res, next) => {
         })    
     }
 })
+
+
 
 app.get('/login',(req, res, next) => {         
     res.cookie('istAngemeldetAls', '')       
@@ -86,10 +93,18 @@ app.get('/login',(req, res, next) => {
 
 app.post('/',(req, res, next) => {   
     
+    // Der Wert des Inputs mit dem name = "idKunde" wird über...
+    // ...den request zugewiesen an die konstanteidKunde
     const idKunde = req.body.idKunde
     const kennwort = req.body.kennwort
-        
-    if(idKunde === kunde.idKunde && kennwort === kunde.Kennwort){            
+    
+    console.log(idKunde + " == " + kunde.IdKunde + "&&" + kennwort + " == " + kunde.Kennwort)
+
+    // Wenn der Wert von idkunde dem wert der Eigenschaft kunde.IdKunde
+    // entspricht UND der Wert von Kennwort der Eigenschaft kunde.Kennwort
+    // entspricht dann, werden die Anweisungen im Rumpf der if-Kontrollstruktur 
+    // abgearbeitet.
+    if(idKunde == kunde.IdKunde && kennwort == kunde.Kennwort){            
         console.log("Der Cookie wird gesetzt:")
         res.cookie('istAngemeldetAls', idKunde)
         res.render('index.ejs', {  
