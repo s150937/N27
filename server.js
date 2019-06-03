@@ -150,24 +150,11 @@ app.post('/kontoAnlegen',(req, res, next) => {
     
     if(idKunde){
         console.log("Kunde ist angemeldet als " + idKunde)
-        
-        // Der Wert aus dem Input mit dem Namen 'kontonummer'
-        // wird zugewiesen (=) an die Eigenschaft Kontonummer
-        // des Objekts namens Konto.
-        let konto = new Konto()
-        konto.Kontonummer = req.body.kontonummer
-        konto.Kontoart = req.body.kontoart
-        const bankleitzahl = 27000000
-        const leandererkennung = "DE"
-        konto.Iban = iban.fromBBAN(leandererkennung,bankleitzahl + " " + konto.Kontonummer)
-
-
-console.log(errechneteIban)        
-
+         
         // ...wird kontoAnlegen.ejs gerendert.
 
         res.render('kontoAnlegen.ejs', {   
-            meldung : "Das " + konto.Kontoart + " mit der Kontonummer" + konto.Kontonummer +   "  wurde erfolgreich angelegt."                           
+            meldung : ""                            
         })
     }else{
 
@@ -177,4 +164,46 @@ console.log(errechneteIban)
         res.render('login.ejs', {                    
         })    
     }
+})
+
+
+//Stammdaten
+app.get('/stammdatenPflegen',(req, res, next) => {   
+
+  let idKunde = req.cookies['istAngemeldetAls']
+  
+  if(idKunde){
+      console.log("Die Stammdaten von " + idKunde + " wurden erfolgreich verändert")
+
+      let konto = new Konto()
+      konto.Kontonummer = req.body.kontonummer
+      konto.kontoart = req.body.kontoart
+      
+      res.render('stammdatenPflegen.ejs', {
+           meldung : "Die Stammdaten wurden erfolgreich verändert"                             
+      })
+  }else{
+      res.render('login.ejs', {                    
+      })    
+  }
+})
+
+app.post('/stammdatenPflegen',(req, res, next) => {   
+
+  let idKunde = req.cookies['istAngemeldetAls']
+  
+  if(idKunde){
+      console.log("Die Stammdaten von" + idKunde + " wurden erfolgreich verändert")
+      
+      kunde.Kennwort=req.body.kennwort
+      kunde.nachname=req.body.nachname
+    
+      res.render('stammdatenPflegen.ejs', {   
+          meldung : "Die Stammdaten wurden erfolgreich verändert."                           
+      })
+  }else{
+
+      res.render('login.ejs', {                    
+      })    
+  }
 })
