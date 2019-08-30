@@ -7,6 +7,7 @@ class Konto{
 }
 
 // Klassendefinition
+
 class Kunde{
     constructor(){
         this.Vorname
@@ -33,6 +34,13 @@ kunde.Geschlecht = "w"
 kunde.Geburtsdatum = "1999-12-31"
 kunde.Adresse = "Berlin"
 
+
+// Die Zahl 272727 wird zugewiesen an einer variablen namens Bankleitzahl 
+//vom Typ const (so liest man const bankleitzahö = 272727)
+const bankleitzahl = 27272727
+const leandererkennung = "DE"
+
+// Das modul namens modul wird eingebunden und zugewiesen an eine variable namens express vom typ const
 const express = require('express')
 const iban = require('iban')
 const bodyParser = require('body-parser')
@@ -43,6 +51,7 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(cookieParser())
 
+// Ein server der lauscht auf veränderungen 
 const server = app.listen(process.env.PORT || 3000, () => {
    
    // Ausgabe von 'Server lauscht auf...' im Terminal
