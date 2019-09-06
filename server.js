@@ -198,13 +198,25 @@ app.post('/stammdatenPflegen',(req, res, next) => {
     
     if(idKunde){
         console.log("Kunde ist angemeldet als " + idKunde)
+
+//Nur, wenn das input namens nachname nicht leer ist, wird der
+// nachname neu gesetzt
+
+    if(req.body.nachname){
+            kunde.Nachname = req.body.nachname
+        }
+
+    if(req.body.kennwort){
+            kunde.Kennwort = req.body.kennwort
+        }
+
+    if(req.body.email){
+            kunde.Mail = req.body.email
         
-        kunde.Nachname = req.body.nachname
-        kunde.Kennwort = req.body.kennwort
-        kunde.Mail = req.body.email
+        }
         
         res.render('stammdatenPflegen.ejs', {                              
-            meldung : "Die Stammdaten wurden geändert."
+            meldung : "Die Stammdaten wurden geändert. Neuer Nachname: " + kunde.Nachname + "Neue Mail: " + kunde.Mail
         })
     }else{
         // Die login.ejs wird gerendert 
