@@ -10,11 +10,11 @@ const server = app.listen(process.env.PORT || 3000, () => {
 })
 
 // Eine Klasse ist ein Bauplan. Der Bauplan sieht vor, wie Objekte erstellt werden.
-// Alle Objekte, die von einem Bauplan erstellt werden haben die selben Eigenschaften,
+// Alle Objekte, die von einem Bauplan erstellt werden, haben die selben Eigenschaften,
 // aber möglicherweise unterschiedliche Eigenschaftswerte.
 
-// Klassendefinition
-// =================
+// Klassendefintion
+// ================
 
 class Rechteck{
     constructor(){
@@ -35,10 +35,12 @@ class Schueler{
     }
 }
 
-class Auto{
+class Fussballer{
     constructor(){
-        this.marke
-        this.farbe
+        this.vorname 
+        this.nachname
+        this.mannschaft
+        this.geschlecht
     }
 }
 
@@ -46,17 +48,18 @@ class Auto{
 // Deklaration = Bekanntmachung
 // let rechteck = ...
 
-// Instanziierung eines neuen Objektes.
+// Instanziierung eines neuen Objekts.
 // Instanziierung erkennt man immer am reservierten Wort "new".
 // Bei der Instanziierung wird Arbeitsspeicher bereitgestellt.
 // ... = new Rechteck()
 
-// 1. Deklaration 2. Instanziierung 
+// 1.Deklaration  2.Instanziierung
 let rechteck = new Rechteck()
 let schueler = new Schueler()
-let auto = new Auto()
+let fussballer = new Fussballer()
 
-// 3. Initialisierung (Konkrete Eigenschaftswerte wer werden zugewiesen)
+
+// 3. Initialisierung (Konkrete Eingeschaftswerte werden zugewiesen)
 
 rechteck.breite = 2
 rechteck.laenge = 3
@@ -64,8 +67,8 @@ rechteck.laenge = 3
 schueler.geschlecht = "w"
 schueler.alter = 17
 
-auto.marke = "Audi"
-auto.farbe = "Schwarz"
+fussballer.mannschaft = "FC Borken"
+fussballer.vorname = "Firke"
 
 console.log("Länge: " + rechteck.laenge)
 console.log("Breite: " + rechteck.breite)
@@ -77,17 +80,12 @@ app.get('/klasse-objekt-ejs-trainieren',(req, res, next) => {
 
     // ... wird klasse-objekt-ejs-trainieren.ejs gerendert:
 
-    res.render('klasse-objekt-ejs-trainieren', {      
+    res.render('klasse-objekt-ejs-trainieren', {                                      
         breite : rechteck.breite,
         laenge : rechteck.laenge,
-            
         geschlecht : schueler.geschlecht,
-        alter : schueler.alter,                   
-          
-        marke : auto.marke,
-        farbe : auto.farbe,
-        
+        alter : schueler.alter,
+        vorname : fussballer.vorname,
+        mannschaft : fussballer.mannschaft
     })
 })
-
-  
