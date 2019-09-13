@@ -174,7 +174,7 @@ app.post('/kontoAnlegen',(req, res, next) => {
         
         // füge das Konto in die mysql datenbank ein
 
-        connection.query('INSERT INTO konto(iban,timestamp,anfangssaldo,Kontoart) VALUES("'+ konto.Iban +'",)', function (error, results, fields) {
+        connection.query('INSERT INTO konto(iban,timestamp,anfangssaldo,Kontoart) VALUES("'+ konto.Iban +'",now(),100,"'+ konto.Kontoart +'");', function (error, results, fields) {
             if (error) throw error;
             console.log('Das Konto wurde erfolgreich angelegt');
           });
