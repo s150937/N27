@@ -45,11 +45,19 @@ const dbVerbindung = mysql.createConnection({
     host: '10.40.38.110',
     user: 'placematman',
     password: 'BKB123456!',
-    db: 'N27',
+    database: 'dbn27',
     port: '3306'
 })
 
-dbVerbindung.connect()
+dbVerbindung.connect(function(fehler){
+    dbVerbindung.query('CREATE TABLE IF NOT EXISTS konto(iban VARCHAR(22), anfangssaldo DECIMAL(15,2), kontoart VARCHAR(20), timestamp TIMESTAMP, PRIMARY KEY(iban));', function (fehler) {
+        if (fehler) throw fehler
+        console.log('Die Tabelle Konto wurde erfolgreich angelegt.')
+      })
+})
+
+
+
 const app = express()
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
@@ -174,8 +182,8 @@ app.post('/kontoAnlegen',(req, res, next) => {
         
         // füge das Konto in die mysql datenbank ein
 
-        connection.query('INSERT INTO konto(iban,timestamp,anfangssaldo,Kontoart) VALUES("'+ konto.Iban +'",now(),100,"'+ konto.Kontoart +'");', function (error, results, fields) {
-            if (error) throw error;
+        dbVerbindung.query('INSERT INTO konto(iban,anfangssaldo,Kontoart,timestamp) VALUES("'+ konto.Iban +'",100,"'+ konto.Kontoart +'",NOW());', function (fehler, results, fields) {
+            if (fehler) throw fehler;
             console.log('Das Konto wurde erfolgreich angelegt');
           });
 
