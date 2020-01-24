@@ -163,6 +163,7 @@ app.get('/kontoAnlegen',(req, res, next) => {
     }
 })
 
+
 // Wenn der Button auf der kontoAnlegen-Seite gedrückt wird, ...
 
 app.post('/kontoAnlegen',(req, res, next) => {   
@@ -309,6 +310,31 @@ app.post('/ueberweisen',(req, res, next) => {
         // Die login.ejs wird gerendert 
         // und als Response
         // an den Browser übergeben.
+        res.render('login.ejs', {                    
+        })    
+    }
+})
+
+app.get('/kontoAnzeigen',(req, res, next) => {   
+
+    let idKunde = req.cookies['istAngemeldetAls']
+    
+    if(idKunde){
+        console.log("Kunde ist angemeldet als " + idKunde)
+         
+        // Hier muss die Datenbank abgefragt werden.
+
+        dbVerbindung.connect(function(fehler){
+            dbVerbindung.query('SELECT Anfangssaldo FROM konto WHERE iban = "DE1234";', function (fehler, result, fields) {
+                if (fehler) throw fehler
+                console.log('Der Saldo von DE12345 ist:' + result)
+            })
+        })
+        
+        res.render('kontoAnzeigen.ejs', {    
+            meldung : ""                          
+        })
+    }else{
         res.render('login.ejs', {                    
         })    
     }
