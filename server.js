@@ -57,11 +57,24 @@ const dbVerbindung = mysql.createConnection({
 })
 
 dbVerbindung.connect(function(fehler){
+    dbVerbindung.query('CREATE TABLE IF NOT EXISTS konto(idKunde INT (11), nachname VARCHAR (45), vorname VARCHAR(45), mail VARCHAR(45), kennwort VARCHAR (45), PRIMARY KEY(idKunde));', function (fehler) {
+        if (fehler) throw fehler
+        console.log('Die Tabelle Kunde wurde erfolgreich angelegt.')
+    })
+})
+
+dbVerbindung.connect(function(fehler){
     dbVerbindung.query('CREATE TABLE IF NOT EXISTS konto(iban VARCHAR(22), anfangssaldo DECIMAL(15,2), kontoart VARCHAR(20), timestamp TIMESTAMP, PRIMARY KEY(iban));', function (fehler) {
         if (fehler) throw fehler
         console.log('Die Tabelle konto wurde erfolgreich angelegt.')
     })
 })
+
+
+dbVerbindung.query('INSERT INTO  kunde(idKunde,vorname,nachname,mail,kennwort) VALUES (' + kunde.IdKunde + ',"'+ kunde.Vorname +'","' + kunde.Nachname + '","'+ kunde.Mail +'","' + kunde.Kennwort + '");', function (fehler) {
+    if (fehler) throw fehler;
+    console.log('Das Konto wurde erfolgreich angelegt');
+});
 
 const app = express()
 app.set('view engine', 'ejs')
@@ -162,7 +175,6 @@ app.get('/kontoAnlegen',(req, res, next) => {
         })    
     }
 })
-
 
 // Wenn der Button auf der kontoAnlegen-Seite gedrückt wird, ...
 
@@ -303,7 +315,7 @@ app.post('/ueberweisen',(req, res, next) => {
 
         // ... wird die kontoAnlegen.ejs gerendert.
 
-        res.render('kontoAnlegen.ejs', {                              
+        res.render('ueberweisen.ejs', {                              
             meldung : "Das " + konto.Kontoart + " mit der IBAN " + konto.Iban + " wurde erfolgreich angelegt."
         })
     }else{
@@ -321,16 +333,18 @@ app.get('/kontoAnzeigen',(req, res, next) => {
     
     if(idKunde){
         console.log("Kunde ist angemeldet als " + idKunde)
-         
+        
         // Hier muss die Datenbank abgefragt werden.
 
+       let kontostand
+       
         dbVerbindung.connect(function(fehler){
-            dbVerbindung.query('SELECT Anfangssaldo FROM konto WHERE iban = "DE1234";', function (fehler, result, fields) {
+            dbVerbindung.query('SELECT anfangssaldo FROM konto WHERE iban = "DE27270000009999990000";', function (fehler, result) {
                 if (fehler) throw fehler
-                console.log('Der Saldo von DE12345 ist:' + result)
+                console.log('Der Saldo von DE27270000009999990000 ist: ' + result[0].anfangssaldo)
             })
         })
-        
+
         res.render('kontoAnzeigen.ejs', {    
             meldung : ""                          
         })
