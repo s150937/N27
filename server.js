@@ -37,7 +37,7 @@ let kunde = new Kunde()
 // Initialisierung
 
 
-kunde.IdKunde = 4711
+kunde.IdKunde = 150937
 kunde.Kennwort = "123"
 kunde.Geburtsdatum = "1999-12-31"
 kunde.Nachname = "Müller"
@@ -60,16 +60,31 @@ const dbVerbindung = mysql.createConnection({
 })
 
 dbVerbindung.connect(function(fehler){
-    dbVerbindung.query('CREATE TABLE IF NOT EXISTS kunde(idKunde INT(11), vorname VARCHAR(45), nachname VARCHAR(45), kennwort VARCHAR(45), mail VARCHAR(45), PRIMARY KEY(idKunde));', function (fehler) {
-        if (fehler) throw fehler
-        console.log('Die Tabelle Kunde wurde erfolgreich angelegt.')
+    dbVerbindung.query('CREATE TABLE kunde(idKunde INT(11), vorname VARCHAR(45), nachname VARCHAR(45), kennwort VARCHAR(45), mail VARCHAR(45), PRIMARY KEY(idKunde));', function (fehler) {
+        if (fehler) {
+            if(fehler.code == "Er_DUP_ENTRY"){
+                console.log("Kunde mit ID " + kunde.IdKunde + " existiert bereits und wird nicht erneut angelegt")
+            }else{
+                console.log("Fehler: " + fehler)
+            }
+        }else{
+            console.log('Kunde mit ID ' + kunde.IdKunde + "erfolgreich in DB angelegt.");
+        }
     })
 })
 
 dbVerbindung.connect(function(fehler){
-    dbVerbindung.query('CREATE TABLE IF NOT EXISTS konto(iban VARCHAR(22), idKunde INT(11), anfangssaldo DECIMAL(15,2), kontoart VARCHAR(20), timestamp TIMESTAMP, PRIMARY KEY(iban));', function (fehler) {
-        if (fehler) throw fehler
-        console.log('Die Tabelle konto wurde erfolgreich angelegt.')
+    dbVerbindung.query('CREATE konto(iban VARCHAR(22), idKunde INT(11), anfangssaldo DECIMAL(15,2), kontoart VARCHAR(20), timestamp TIMESTAMP, PRIMARY KEY(iban));', function (fehler) {
+        if (fehler) {
+            if(fehler.code == "Er_TABLE_EXISTS_ERROR"){
+                console.log("Fehler: " + fehler)
+            }else{
+                console.log("Fehler: " + fehler)
+            }
+            console.log("Fehler:Tabelle konto existiert bereits und wird nicht angelegt. ")
+        }else{
+            console.log("Die Tabelle konto wurde erfolgreich angelegt")
+        }
     })
 })
 
@@ -210,8 +225,16 @@ app.post('/kontoAnlegen',(req, res, next) => {
         // Füge das Konto in die MySQL-Datenbank ein
     
         dbVerbindung.query('INSERT INTO konto(iban,idKunde,anfangssaldo,kontoart,timestamp) VALUES ("' + konto.Iban + '","'+ idKunde +'",100,"' + konto.Kontoart + '",NOW());', function (fehler) {
-            if (fehler) throw fehler;
-            console.log('Das Konto wurde erfolgreich angelegt');
+            if (fehler) {
+                if(fehler.code == "ER_DUP_ENTRY"){
+                    console.log("konto mit Iban " + konto.Iban + "existiert bereits und wird nicht angelegt")
+                }else{
+                    console.log(fehler.code)
+                }
+            }else{
+                console.log('Das Konto wurde erfolgreich angelegt');
+            }
+            
         })
 
         // ... wird die kontoAnlegen.ejs gerendert.
@@ -320,9 +343,16 @@ app.post('/ueberweisen',(req, res, next) => {
         // Füge das Konto in die MySQL-Datenbank ein
     
         dbVerbindung.query('INSERT INTO konto(iban,anfangssaldo,kontoart,timestamp) VALUES ("' + konto.Iban + '",100,"' + konto.Kontoart + '",NOW());', function (fehler) {
-            if (fehler) throw fehler;
-            console.log('Das Konto wurde erfolgreich angelegt');
-        });
+            if (fehler){
+                if(fehler.code == "ER_DUP_ENTRY"){
+                    console.log("Das Konto mit der Iba " + konto.Iban + "existiert bereits und wird nicht nochmal angelegt")
+                }else{
+                    console.log("Fehler: " + fehler)
+                } 
+            }else{
+                console.log('Das Konto wurde erfolgreich angelegt');
+            }
+        })
 
         // ... wird die kontoAnlegen.ejs gerendert.
 
