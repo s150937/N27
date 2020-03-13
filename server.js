@@ -50,6 +50,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const mysql = require('mysql')
+const validator = require("email-validator");
 
 const dbVerbindung = mysql.createConnection({
     host: '10.40.38.110',
@@ -271,6 +272,7 @@ app.get('/stammdatenPflegen',(req, res, next) => {
 
 app.post('/stammdatenPflegen',(req, res, next) => {   
 
+
     let idKunde = req.cookies['istAngemeldetAls']
     
     if(idKunde){
@@ -279,20 +281,29 @@ app.post('/stammdatenPflegen',(req, res, next) => {
         // Nur, wenn das Input namens nachname nicht leer ist, wird der
         // Nachname neu gesetzt.
 
+        var erfolgsmeldung = "Stammdaten wurden aktualisiert";
+
         if(req.body.nachname){
             kunde.Nachname = req.body.nachname
+            erfolgsmeldung += "; Neuer Nachname: " + kunde.Nachname
         }
         
         if(req.body.kennwort){
             kunde.Kennwort = req.body.kennwort
+            erfolgsmeldung += "; Neues Kennwort: " + kunde.Kennwort
         }
 
-        if(req.body.email){
-            kunde.Mail = req.body.email
+        if(req.body.mail){
+            if(validator.validate(req.body.mail)){
+                kunde.Mail = req.body.mail
+                erfolgsmeldung += "; Neue E-Mail: " + kunde.Mail
+            }else{
+                erfolgsmeldung += "; Die E-Mail " + req.body.mail + " ist syntaktisch falsch und wird nicht aktualisiert."
+            }
         }
         
         res.render('stammdatenPflegen.ejs', {                              
-            meldung : "Die Stammdaten wurden geändert. Neuer Nachname: " + kunde.Nachname + " Neue Mail: " + kunde.Mail
+            meldung : erfolgsmeldung
             
         })
     }else{
