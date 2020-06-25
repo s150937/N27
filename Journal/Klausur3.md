@@ -1,11 +1,11 @@
-# Klausur / Test 2 am 18.3.2020
+# Klausur 3 in der Woche des 18.3.
 
-1. fehler finden und auf Papier dokumentieren
-2. Logik ausprogramieren
-3. Fehler ausprogramieren
-4. String verketten
-5. if und else (auch verschachtelt)
-6. Sql syntax
-7. app.post und get
-8. Übergabe einer variablen an ein SQL-Statement
-9. evtl ein externes Modul einbiden
+* evtl. Fehler finden 
+* Logik ausprogrammieren (z.B. mit if / else)
+* Fehler behandeln
+* String verketten
+* if / else
+* zur SQL-Syntax eine Aufgabe
+* Übergabe einer Variablen an ein SQL-Statement
+* app.post und get
+* evtl. Modul einbinden, das etwas macht. Z.B. "email-validator"
