@@ -405,3 +405,15 @@ app.get('/kontoAnzeigen',(req, res, next) => {
         })    
     }
 })
+
+//Schleifen in der Server.js einfügen... hier soll diese schleife bis 10 zählen
+console.log ("Schleifen ausprobieren")
+
+for(var z = 0; z < 1; z++){
+    for (var i = 0; i <= 10; i++) {
+        console.log(i);
+    }
+    for (var i = 10; i >= 0; i--) {
+        console.log(i);
+    }
+}
